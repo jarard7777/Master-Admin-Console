@@ -104,12 +104,9 @@ app.get('/', (req, res) => {
                     <head>
                         <title>Jarard's Master Admin Console</title>
                         <style>
-                        background: rgba(255, 255, 255, 0.03);
-border: 1px solid rgba(255, 255, 255, 0.08);
-backdrop-filter: blur(10px);
                             body { font-family: 'Segoe UI', sans-serif; margin: 40px; background: #0f0f12; color: #e1e1e6; }
                             .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-                            .card { background: #17171c; padding: 20px; border-radius: 8px; border: 1px solid #2e2e38; text-align: center; }
+                            .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(10px);}
                             .card h3 { margin: 0; font-size: 13px; color: #8a8a93; text-transform: uppercase; }
                             .card .value { font-size: 36px; font-weight: bold; margin-top: 10px; color: #00bcff; }
                             table { width: 100%; border-collapse: collapse; background: #17171c; border-radius: 8px; overflow: hidden; border: 1px solid #2e2e38; }

@@ -24,11 +24,11 @@ An internal tracking view engineered to render data streams into human readable 
 Utilizes a structured SQLite schema configured to maintain relational data integrity while handling rapid analytical updates. The schema design focuses on clean query logic and minimal overhead for analytical data tracking.
 
 ## Repository Structure
-├── server.js              # Express application entry point and API routing
-├── middleware/            # Security and Sanitization Gateway logic
-├── models/                # SQLite database schemas and initialize scripts
-├── public/                # High fidelity dashboard assets (JS, CSS, HTML)
-└── README.md              # Project documentation
+* **server.js** - Express application entry point and API routing
+* **middleware/** - Security and Sanitization Gateway logic
+* **models/** - SQLite database schemas and initialize scripts
+* **public/** - High fidelity dashboard assets for JS, CSS, and HTML
+* **README.md** - Project documentation
 
 ## Local Setup and Installation
 Follow these steps to clone and spin up the development environment locally:

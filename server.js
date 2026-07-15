@@ -2,6 +2,20 @@ const express = require('express');
 const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
+const username = escapeHTML(parts[0].replace('User:', '').trim());
+const status = escapeHTML(parts[1].replace('Status:', '').trim());
+const role = escapeHTML(parts[2].replace('Role:', '').trim());
+stmt.run(username, status, role);
+// Instead of splitting by '|', use regex to extract the values precisely
+const match = line.match(/User: (.*?) \| Status: (.*?) \| Role: (.*)/);
+if (match) {
+    const [_, username, status, role] = match;
+    stmt.run(escapeHTML(username), escapeHTML(status), escapeHTML(role));
+} else {
+    console.log(`⚠️ WARNING: Dropping corrupt entry: ${line}`);
+}
+
+
 
 // Tell Express to automatically unpack form data from Chrome
 app.use(express.urlencoded({ extended: true }));
@@ -52,18 +66,21 @@ app.get('/', (req, res) => {
             const stmt = db.prepare(`INSERT INTO system_logs (username, status, role) VALUES (?, ?, ?)`);
             
             lines.forEach((line) => {
-                if (!line.includes('|')) return;
+    // We use the regex to extract data and validate the line format simultaneously
+    const match = line.match(/User: (.*?) \| Status: (.*?) \| Role: (.*)/);
+    
+    if (match) {
+        // match[1] is Username, match[2] is Status, match[3] is Role
+        const username = escapeHTML(match[1].trim());
+        const status = escapeHTML(match[2].trim());
+        const role = escapeHTML(match[3].trim());
+        
+        stmt.run(username, status, role);
+    } else {
+        console.log(`⚠️ WARNING: Dropping corrupt data entry line -> "${line}"`);
+    }
+});
 
-                const parts = line.split('|');
-                if (parts.length !== 3) {
-                    console.log(`⚠️ WARNING: Dropping corrupt data entry line -> "${line}"`);
-                    return;
-                }
-                const username = parts[0].replace('User:', '').trim();
-                const status = parts[1].replace('Status:', '').trim();
-                const role = parts[2].replace('Role:', '').trim();
-                stmt.run(username, status, role);
-            });
             
             stmt.finalize(() => {
                 
